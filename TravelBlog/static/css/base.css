@@ -1,0 +1,488 @@
+*, *::before, *, *::after {
+    box-sizing: border-box;
+
+ }
+
+body {
+    width: auto;
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    position: relative;
+    
+}
+
+.content {
+    min-height: calc(100vh - 230px);
+}
+.basemenu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: rgb(0,102,51);
+    height: 100px;
+    font-size: 20px;
+    width: auto;
+}
+.menu-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu-right {
+    margin: auto 0;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    align-content: space-evenly;
+  
+}
+
+.link-basemenu {
+    
+    color: yellow;
+    text-decoration: none;
+}
+
+.link-basemenu:hover {
+ 
+    color: orange;
+}
+
+.menu-left img {
+    height: 80px;
+    width: auto;
+
+}
+.image-container {
+    height: 90px;
+    width: 70%;
+    margin: auto 0px;
+
+}
+.image-container img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+/* Всплывающие сообщения */
+.mess {
+    background-color:rgb(0,102,51) ;
+    opacity: 0.5;
+    color: yellow;
+    border-radius: 5px;
+    padding: 0px auto;
+    width: 200px;
+    text-align: center;
+    font-size: 14px;
+    position: absolute;
+    right: 2%;
+}
+/* ******************** */
+ul {
+    list-style-type: none;
+}
+
+.block-login {
+    height: auto;
+    width: 400px;
+    margin: 50px auto;
+    border: 1px solid #c0c0c0;
+    border-radius: 10px;
+    box-shadow:
+        inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+        0 0 0 2px rgb(255, 255, 255),
+        0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+    padding: auto 0px;
+}
+.form-group {
+    margin: 20px 10px;
+}
+.form-group input{
+    float: right;
+    border-radius: 5px;
+    width: 220px;
+}
+
+.botton {
+    width: 100px;
+    height: 30px;
+    background-color: rgb(0,102,51);
+    border-radius: 10px;
+    color: yellow;
+    border: 1px solid #c0c0c0;
+    padding-bottom: 5px;
+    margin: 20px 10px;
+}
+
+.botton.del {
+    background-color: red;
+}
+
+.btn-link {
+    width: 100px;
+    height: 30px;
+    background-color: rgb(0,102,51);
+    border-radius: 10px;
+    padding-top: 5px;
+    margin: 20px 10px;
+ 
+}
+.btn-link a {
+    color: yellow;
+    text-decoration: none;
+    font-size: 13px;
+    margin-left: 25px;
+   
+   
+}
+
+.btn-link.del {
+    background-color: red;
+}
+
+
+
+
+ /* Форма добавления поста */
+ .add_post {
+    width: 80%;
+    margin: 50px auto 0px auto;
+    padding: 10px;
+    border: 1px solid #c0c0c0;
+    border-radius: 10px;
+    box-shadow:
+        inset 0 -3em 3em rgba(0, 0, 0, 0.1),
+        0 0 0 2px rgb(255, 255, 255),
+        0.3em 0.3em 1em rgba(0, 0, 0, 0.3);
+   
+ }
+
+/* Страница ввода поста */
+ .add_post.post_form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.add_pos.form-label {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.add_post #id_city,.add_post #id_tags{
+    width: 40%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+ .add_post #id_title{
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+ }
+
+ .add_post textarea {
+    float: right;
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    
+ }
+
+
+ .add_post #ddmenu {
+    background-color:white;
+    width: 25%;
+    position: absolute;
+    top:18%;
+    left: 43%;
+    font-size: 14px;
+ }
+
+ .add_post #ddmenu li {
+    margin-left: -40px;
+    /* border-bottom: 1px solid #c0c0c0; */
+ }
+
+/* Страница пользователя */
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+
+    
+}
+
+.profile_info {
+    width: 20%;
+    background-color: rgb(170, 255, 212) ;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 5px;
+    color: rgb(0,102,51) ;
+    min-width: 0;
+}
+.welcome {
+    flex-direction: row;
+}
+.welcome img {
+    width: 100%;
+    height: auto;
+   
+    
+}
+.welcome p {
+    width: 100%;
+    text-align: center;
+}
+.user-select {
+    background-color: rgb(118, 243, 181) ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-select p {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.btn-link.add-post {
+    width: 150px;
+    margin: 10px auto;
+
+}
+
+
+.user_posts {
+
+    width: 60%;
+    padding: 20px;
+    
+}
+
+.preview_post{
+    border: 1px solid #aaffd4;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px 5px 0 0;
+}
+
+.city-publ {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0px 20px;
+    flex-grow: 1;
+}
+
+.title {
+    padding-left: 30px ;
+}
+
+.post-body-preview {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.post-body-preview img {
+    width: 200px;
+    height: auto;
+    margin: 10px 10px 10px -10px;
+}
+.post-body-preview a {
+    margin-left: 15px;
+}
+.post-body-preview p, .fullpost p {
+    text-indent: 20px;
+}
+.post-header {
+    display: flex;
+    flex-direction: row;
+    
+}
+.user_av_name {
+    width: 100px;
+    text-align: center;
+    background-color: rgb(0,102,51);
+    color: yellow;
+    border-radius: 5px 0 0 0;
+}
+.city-publ-title {
+    width: 90%;
+    background-color: #aaffd4;
+
+}
+.user_av_name img,p {
+    margin: 5px;
+}
+
+hr {
+    color: rgb(0,102,51);
+}
+
+/* Блок тегов */
+.tags {
+    width: 20%;
+    background-color:#aaffd4;
+    padding: 20px;
+    margin-top: 20px;
+}
+.tags a,.prew_tags a{
+    color: #4d6f8f;
+    text-decoration: none;
+}
+
+.tags a:hover, .prew_tags a:hover{
+    text-decoration: underline;
+    
+}
+.tags .botton {
+    width: 80px;
+    height: 25px;
+    margin: 0;
+}
+
+
+/*   Карусель */
+
+.swiper-pagination{
+    margin: 10px 0px;
+  
+ }
+.swiper img {
+    width: 60%;
+    height: auto;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #c0c0c0;
+}
+
+.fullpost {
+    margin: 0px 10px;
+}
+
+
+ .swiper_gallery {
+    width: 100%;
+    height: 90vh;
+
+}
+.swiper_gallery img {
+    width: 95%;
+    height: auto;
+}
+
+
+
+
+
+.list-pages {
+	text-align: center;
+	margin: 0 0 20px 0;
+}
+.list-pages ul {
+	margin: 20px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+.list-pages ul li {
+	display: inline-block;
+	margin: 0 10px 0 0;
+}
+.list-pages a {
+	color: #000;
+	font-size: 24px;
+	text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	padding: 5px 0 0 0;
+	border: 1px solid #aaffd4;
+	border-radius: 30px;
+}
+.list-pages .page-num:hover {
+	box-shadow: 3px 3px 1px #aaffd4;
+}
+.list-pages .page-num-selected {
+	border: none;
+	color: #000;
+	font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+	box-shadow: none;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: rgb(0,102,51);
+    height: 80px;
+    font-size: 20px;
+    width: auto;
+    color: yellow;
+
+}
+footer img {
+    width: 30px;
+    height: 30px;
+    margin-left: 20px;
+}
+footer .menu-right{
+    display: flex;
+    flex-direction: row;
+}
+
+/* Блок комментариев */
+
+.comment {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0px;
+    border: 1px solid #aaffd4;
+}
+.avatar {
+   width: 65px;
+   height: auto;
+   background-color: rgb(0,102,51);
+}
+.name-data-text {
+    width: 100%;
+}
+
+.name-data {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #aaffd4;
+    padding: 5px 20px;
+}
+
+.block-comments #id_body {
+    width: 100%;
+    height: 50px;
+    resize: vertical;
+    margin-top: 5px;
+}
+#count-comm, #hide-comm {
+    background-color: rgb(0, 102, 51);
+    color: yellow;
+    text-align: center;
+}
+#count-comm:hover, #hide-comm:hover{
+    color: orange;
+}
+
+
+#map { 
+    height: 400px;
+    width: auto;
+ }

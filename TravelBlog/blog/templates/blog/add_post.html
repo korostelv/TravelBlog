@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Написать пост{% endblock %}
+
+{% block content %}
+
+
+
+<div class="content">
+    <div class="add_post">
+        <form id="post_form" method="post" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            Место:<br>
+            {{form.city}}<br>
+            <ul id="ddmenu"></ul>
+            Заголовок:<br>
+            {{form.title}}<br>
+            Текст:<br>
+            {{form.body}}<br>
+            Теги:<br>
+            {{form.tags}}
+            <br>
+
+            <div class="image_select">
+                {{ photoform.management_form }}
+                {% for form in photoform %}
+
+                    {{ form }}
+
+                {% endfor %}
+            </div>
+            <input type="submit" class="botton" name="submit" value="Загрузить" />
+        </form>
+    </div>
+
+
+</div>
+<div id="data">{{city_list_json}}</div>
+
+{% endblock %}
+

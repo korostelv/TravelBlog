@@ -1,0 +1,78 @@
+{% load avatar_tags %}
+
+{%  for post in user_posts %}
+     <div class="preview_post">
+            <div class="post-header">
+                <div class="user_av_name">
+                    {% avatar post.author 65 %}
+                    <p>{{post.author}}</p>
+                </div>
+                <div class="city-publ-title">
+                    <div class="city-publ">
+                        <h4> Город: {{post.city}}</h4>
+                        <p>{{post.publish}}</p>
+                    </div>
+                    <hr>
+                    <div class="title">
+                        <h3>{{post.title}}</h3>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="fullpost">
+                {{post.body|linebreaks}}
+            </div>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    {% for im in photos %}
+                        <div class="swiper-slide swiper-zoom-container">
+                            <img src="{{ im.image.url }}" >
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+{% endfor %}
+
+<p id="count-comm">Комментариев: {{comments|length}}</p>
+
+<div class="block-comments">
+    <h4>Комментарии:</h4>
+
+    {% for comm in comments %}
+        <div class="comment">
+
+            <div class="avatar">
+            {% avatar comm.author 65 %}
+            </div>
+            <div class="name-data-text">
+                <div class="name-data">
+                    <p>{{comm.author}}</p>
+                    <p>{{comm.create}}</p>
+                </div>
+            {{comm.body|linebreaks}}
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% if user.is_authenticated %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{comment_form.as_p}}
+        <button type="submit" class="botton" >Отправить</button>
+    </form>
+{% else %}
+    <h4>Зарегистрируйтесь, чтобы оставлять комментарии</h4>
+{% endif %}
+
+    <p id="hide-comm">Скрыть комментарии</p>
+</div>

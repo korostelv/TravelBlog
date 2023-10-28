@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <link type="text/css" href="{% static 'css/base.css' %}" rel="stylesheet" >
+<!--    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">-->
+<!--    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" ></script>-->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
+
+<div class="basemenu">
+
+        <div class="menu-left">
+            <ul class="menu-listt">
+                <li><a class="link-basemenu" href="{% url 'blog:index' %}"><img src="{% static 'image/logo.jpg' %}" alt="logo"></a></li>
+            </ul>
+        </div>
+
+    <div class="image-container">
+        <img src="{% static 'image/heater_2.jpg' %}" alt="heater_foto"></a>
+    </div>
+
+        {% if request.user.is_authenticated %}
+                <ul class="menu-right">
+                    <li><a class="link-basemenu" href="{% url 'registration:profile' %}">{{request.user.username }}</a></li>
+                    <li><a class="link-basemenu" href="{% url 'registration:logout' %}">Выход</a></li>
+                </ul>
+        {% else %}
+                <ul class="menu-right">
+                    <li><a class="link-basemenu" href="{% url 'registration:login' %}">Вход</a></li>
+                    <li><a class="link-basemenu" href="{% url 'registration:register' %}">Регистрация</a></li>
+                </ul>
+        {% endif %}
+</div>
+
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <p class="mess" role="alert">
+            {{ message }}
+        </p>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% block content %} {% endblock %}
+
+<footer>
+    <div class="menu-left">
+            <ul class="menu-listt">
+                <li><a class="link-basemenu" href="{% url 'blog:about' %}">О сайте</a></li>
+                <li><a class="link-basemenu" href="{% url 'blog:feeds' %}">Подписаться  на RSS ленту</a></li>
+            </ul>
+    </div>
+
+    <div class="menu-right">
+        Контакты
+        <a class="link-basemenu" href="https://t.me/ValK12"><img src="{% static 'image/icon-telegram.png' %}" alt="telegram"></a>
+        <a class="link-basemenu" href="mailto:korostelv@yandex.ru"><img src="{% static 'image/icon-yandex.png' %}" alt="yandex"></a>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/select_city.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/comments.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/swiper.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/swiper_gallery.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'js/map.js' %}" ></script>
+</body>
+</html>

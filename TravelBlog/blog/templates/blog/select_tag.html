@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}По тегу: {{tag}}{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <div class="profile">
+        <div class="profile_info">
+            {% include 'gallery.html' %}
+        </div>
+
+        <div class="user_posts">
+            <h3>Фильтрация по тегу <i>{{tag}}</i></h3>
+            {% include 'posts_preview.html' %}
+        </div>
+
+       <div class="tags">
+            {% include 'tags_include.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Профайл{% endblock %}
+
+{% block content %}
+<div class="content">
+
+
+
+    <div class="profile">
+
+        <div class="profile_info">
+            {% include 'profile_info.html' with is_authenticated=user.is_authenticated %}
+        </div>
+
+
+        <div class="user_posts">
+            {%if page_obj%}
+                <h2>Ваши публикации, {{user.username}}</h2>
+            {%else%}
+                <h2>Вы еще ничего не опубликовали, {{user.username}}</h2>
+            {% endif %}
+
+            {% include 'posts_preview.html' %}
+
+            {% include 'maps.html' %}
+        </div>
+
+
+        <div class="tags">
+            {% include 'tags_include.html' %}
+        </div>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+

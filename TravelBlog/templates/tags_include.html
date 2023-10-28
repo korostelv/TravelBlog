@@ -1,0 +1,26 @@
+
+
+<form action="{% url 'blog:select_profile' %}" method="post">
+    {% csrf_token %}
+    <label for="profile"><h4> Поиск по аккаунту: </h4></label>
+    <input type="text" id="profile" name="profile">
+    <input type="submit" class="botton" value="Поиск">
+
+</form>
+
+
+<h4>Тэги:</h4>
+    {% for t in tags %}
+           <a href="{% url 'blog:select_tag' t.slug %}">{{t}}&nbsp;</a>
+    {% endfor %}
+
+<br>
+
+<h4>Города:</h4>
+{% for city in list_used_cities%}
+    <a href="{% url 'blog:select_city' city %}">{{city}}</a>
+{% endfor %}
+
+
+
+

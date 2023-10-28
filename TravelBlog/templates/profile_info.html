@@ -1,0 +1,17 @@
+  {% load avatar_tags %}
+<div class="welcome">
+        {% avatar user 220 %}
+        <p> Добро пожаловать,<br> <b>{{user.username}}</b></p>
+    </div>
+    <div class="user-select">
+        <p> Вы можете изменить данные либо удалить свой аккаунт</p>
+        <div class="btn-link">
+            <a href="{% url 'registration:edit_profile' %}">Изменить</a>
+        </div>
+        <div class="btn-link del">
+            <a href="{% url 'registration:delete_profile' %}">Удалить</a>
+        </div>
+    </div>
+    <div class="btn-link add-post">
+        <a href="{% url 'blog:add_post' %}">Написать пост</a>
+    </div>
