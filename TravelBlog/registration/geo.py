@@ -9,9 +9,9 @@ from geopy.geocoders import Nominatim
 # user = request.user
 
 geolocator = Nominatim(user_agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/119.0")
-location = geolocator.geocode("Чернушка ,Пермский край, Россия")
-print(location)
-print((location.latitude, location.longitude))
+location = geolocator.geocode("Пермь ,Пермский край, Россия")
+# print(location)
+# print((location.latitude, location.longitude))
 
 
 def current_location():

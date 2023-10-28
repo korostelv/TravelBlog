@@ -39,7 +39,6 @@ def add_post(request):
             f = form.save(commit=False)
             f.author = request.user
             f.save()
-            # tags = form.cleaned_data['tags'].replace(' ', '_')
             tags = form.cleaned_data['tags']
             if tags:
                 f.tags.set(tags.split(','))

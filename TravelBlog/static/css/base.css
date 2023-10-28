@@ -482,7 +482,17 @@ footer .menu-right{
 }
 
 
+/* Карта */
 #map { 
     height: 400px;
     width: auto;
  }
+
+ .show-map, .hide-map {
+    background-color: rgb(0, 102, 51);
+    color: yellow;
+    text-align: center;
+}
+.show-map:hover, .hide-map:hover{
+    color: orange;
+}

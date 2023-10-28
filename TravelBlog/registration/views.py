@@ -5,11 +5,13 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from taggit.models import Tag
 from .forms import UserRegisterForm, LoginForm, UserEditForm
+import json
 
 
 from django.apps import apps
 Post = apps.get_model('blog', 'Post')
 Photo = apps.get_model('blog', 'Photo')
+City = apps.get_model('blog', 'City')
 
 from .geo import current_location
 
@@ -47,7 +49,16 @@ def profile(request):
     user = request.user
     user_posts = Post.objects.filter(author=user)
 
-
+    cityes = City.objects.all()
+    user_city = {}
+    for city in cityes:
+        coord = {}
+        for post in user_posts:
+            if city.name == post.city:
+                coord['lat'] = city.lat_coord
+                coord['long'] = city.long_coord
+                user_city[city.name] = coord
+    user_city_json = json.dumps(user_city)
 
     photos = Photo.objects.all()
     paginator = Paginator(user_posts, 5)
@@ -60,7 +71,8 @@ def profile(request):
         'page_obj': page_obj,
         'tags': sorted(tags),
         'list_used_cities': sorted(list_used_cities),
-        'current_location': current_location
+        'current_location': current_location,
+        'user_city': user_city_json
     }
     return render(request, 'registration/profile.html',content)
 
@@ -93,14 +105,14 @@ def edit_profile(request):
     return render(request, 'registration/edit_profile.html', {'form': form})
 
 
-@login_required
+
 def delete_profile(request):
     if request.method == 'POST':
         user = request.user
         user.delete()
         logout(request)
         messages.success(request, 'Ваш профиль успешно удален.')
-        return redirect(request, 'blog:index')
+        return redirect('blog:index')
     return render(request, 'registration/delete_profile.html')
 
 
