@@ -11,19 +11,21 @@ $(document).ready(function(){
 
 
     let map = L.map('map').setView([58.00, 56.15], 6); //По координатам  Перми
-    // let map = L.map('map').setView(loc, 6); // По координатам по IP
+    // // let map = L.map('map').setView(loc, 6); // По координатам по IP
 
 
 
     const basemaps = {
-        StreetView: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+        StreetView: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution: '&copy; OpenStreetMap'}),
         Topography: L.tileLayer.wms('http://ows.mundialis.de/services/service?',   {layers: 'TOPO-WMS'}),
         Places: L.tileLayer.wms('http://ows.mundialis.de/services/service?', {layers: 'OSM-Overlay-WMS'}),
+        OPNVKarte: L.tileLayer('https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png')
     };
     basemaps.StreetView.addTo(map);
     L.control.layers(basemaps).addTo(map);
 
 
+  
 
     const flagIcon = L.icon({
         iconUrl: 'https://raw.githubusercontent.com/korostelv/image/main/flag.png',
