@@ -6,14 +6,14 @@ from django.contrib.auth import login, authenticate, logout
 from taggit.models import Tag
 from .forms import UserRegisterForm, LoginForm, UserEditForm
 import json
-
+from .geo import current_location
 
 from django.apps import apps
 Post = apps.get_model('blog', 'Post')
 Photo = apps.get_model('blog', 'Photo')
 City = apps.get_model('blog', 'City')
 
-from .geo import current_location
+
 
 posts = Post.objects.all()
 list_used_cities = []
@@ -78,6 +78,7 @@ def profile(request):
 
 
 def register(request):
+    tags = Tag.objects.all()
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -85,8 +86,11 @@ def register(request):
             login(request, user)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Создан аккаунт {username}!')
-            # return redirect(request, 'registration:profile')
-            return render(request, 'registration/profile.html')
+            content = {
+                'list_used_cities': sorted(list_used_cities),
+                'tags': sorted(tags),
+            }
+            return render(request, 'registration/profile.html', content)
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})

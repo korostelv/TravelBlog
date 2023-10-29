@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'avatar',
     'registration.apps.RegistrationConfig',
     'blog.apps.BlogConfig',
-    'taggit'
+    'taggit',
+    'django_cleanup.apps.CleanupConfig'
 ]
 
 MIDDLEWARE = [
