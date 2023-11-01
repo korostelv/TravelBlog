@@ -7,6 +7,9 @@
                 <div class="user_av_name">
                     {% avatar post.author 65 %}
                     <p>{{post.author}}</p>
+                    {% if  user.is_authenticated and post.author != user %}
+                        <a href="{% url 'registration:follow' post.author.id %}">Подписаться</a>
+                    {% endif %}
                 </div>
                 <div class="city-publ-title">
                     <div class="city-publ">

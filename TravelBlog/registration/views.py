@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from taggit.models import Tag
@@ -9,6 +10,9 @@ import json
 from .geo import current_location
 
 from django.apps import apps
+
+from .models import Follower
+
 Post = apps.get_model('blog', 'Post')
 Photo = apps.get_model('blog', 'Photo')
 City = apps.get_model('blog', 'City')
@@ -109,7 +113,6 @@ def edit_profile(request):
     return render(request, 'registration/edit_profile.html', {'form': form})
 
 
-
 def delete_profile(request):
     if request.method == 'POST':
         user = request.user
@@ -118,6 +121,21 @@ def delete_profile(request):
         messages.success(request, 'Ваш профиль успешно удален.')
         return redirect('blog:index')
     return render(request, 'registration/delete_profile.html')
+
+
+@login_required
+def follow(request, user_id):
+    author = User.objects.get(id=user_id)
+    is_following = Follower.objects.filter(user=request.user, follower=author).exists()
+
+    if is_following:
+        messages.warning(request, 'Вы уже подписаны на этого пользователя.')
+    else:
+        f = Follower(user=request.user)
+        f.save()
+        f.follower.add(author)
+    # return render(request, 'blog/index.html', )
+    return redirect(request.META['HTTP_REFERER'])
 
 
 
