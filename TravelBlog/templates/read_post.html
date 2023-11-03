@@ -1,3 +1,4 @@
+{% load static %}
 {% load avatar_tags %}
 
 {%  for post in user_posts %}
@@ -40,7 +41,19 @@
                 <div class="swiper-scrollbar"></div>
             </div>
         </div>
+
+    <div class="rating">
+        <a href="{% url 'blog:likes' post.id %}"><img src="{% static 'image/icon-like.png' %}" alt="like"></a>
+        &emsp;
+        <a href="{% url 'blog:dislikes' post.id %}"><img src="{% static 'image/icon-dislike.png' %}" alt="dislike"></a>
+        {% if text %}
+            {{text}}
+        {% endif %}
+        <p><b>Рейтинг статьи:</b><span style="color: #006633;">  {{post.rating}}</span></p>
+    </div>
 {% endfor %}
+
+
 
 <p id="count-comm">Комментариев: {{comments|length}}</p>
 

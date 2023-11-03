@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}По подпискам{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <div class="profile">
+        <div class="profile_info">
+            {% include 'gallery.html' %}
+        </div>
+
+        <div class="user_posts">
+            {% if page_obj %}
+                {% include 'posts_preview.html' %}
+            {%else %}
+            <h2>Вы еще ни на кого не подписались.</h2>
+            {%endif%}
+        </div>
+
+
+       <div class="tags">
+            {% include 'tags_include.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

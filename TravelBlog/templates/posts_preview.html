@@ -8,7 +8,11 @@
                     {% avatar post.author 65 %}
                     <p>{{post.author}}</p>
                     {% if  user.is_authenticated and post.author != user %}
-                        <a href="{% url 'registration:follow' post.author.id %}">Подписаться</a>
+                        {% if post.author in followers %}
+                            <div class="unfollow"><a href="{% url 'registration:unfollow' post.author.id %}">Отписаться</a></div>
+                        {% else %}
+                    <div class="follow"><a href="{% url 'registration:follow' post.author.id %}">Подписаться</a></div>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="city-publ-title">
@@ -38,7 +42,7 @@
                             </p>
                         {% endif %}
                     </p>
-
+                    <p><b>Рейтинг статьи:</b><span style="color: #006633;"> {{post.rating}}</span></p>
 
                     <div class="btn-link">
                         <a href="{% url 'blog:show_post' post.id %}">Подробнее</a>

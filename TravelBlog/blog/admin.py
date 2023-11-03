@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Post, Photo, City, Comment
+from .models import Post, Photo, City, Comment, Like
+
+
 class PhotoInline(admin.TabularInline):
     fk_name = 'post'
     model = Photo
@@ -13,7 +15,7 @@ class PhotoAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     model = Post
     inlines = [PhotoInline,]
-    list_display = ('id', 'city', 'title', 'author', 'tag_list')
+    list_display = ('id', 'city', 'title', 'author', 'tag_list', 'rating')
     list_filter = ('city', 'author')
     list_display_links = ['id', 'title']
 
@@ -35,7 +37,13 @@ class CityAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'lat_coord', 'long_coord']
 
 
+class LikeAdmin(admin.ModelAdmin):
+    model = Like
+    list_display = ['id', 'post', 'user', 'like']
+
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Photo, PhotoAdmin)
-admin.site.register(City,CityAdmin)
+admin.site.register(City, CityAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Like, LikeAdmin)

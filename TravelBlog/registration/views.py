@@ -1,18 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from taggit.models import Tag
+from .models import Follower
 from .forms import UserRegisterForm, LoginForm, UserEditForm
 import json
 from .geo import current_location
 
 from django.apps import apps
-
-from .models import Follower
-
 Post = apps.get_model('blog', 'Post')
 Photo = apps.get_model('blog', 'Photo')
 City = apps.get_model('blog', 'City')
@@ -24,6 +22,14 @@ list_used_cities = []
 for p in posts:
     if p.city not in list_used_cities:
         list_used_cities.append(p.city)
+
+
+def followers_list(user):
+    f_obj = Follower.objects.filter(user=user)
+    followers=[]
+    for i in f_obj:
+        followers.append(i.follower)
+    return followers
 
 
 def user_login(request):
@@ -69,6 +75,8 @@ def profile(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     tags = Tag.objects.all()
+
+
     content = {
         'user_posts': user_posts,
         'photos': photos,
@@ -76,7 +84,8 @@ def profile(request):
         'tags': sorted(tags),
         'list_used_cities': sorted(list_used_cities),
         'current_location': current_location,
-        'user_city': user_city_json
+        'user_city': user_city_json,
+        # 'followers': followers_list(user)
     }
     return render(request, 'registration/profile.html',content)
 
@@ -123,18 +132,20 @@ def delete_profile(request):
     return render(request, 'registration/delete_profile.html')
 
 
-@login_required
 def follow(request, user_id):
     author = User.objects.get(id=user_id)
     is_following = Follower.objects.filter(user=request.user, follower=author).exists()
-
     if is_following:
         messages.warning(request, 'Вы уже подписаны на этого пользователя.')
     else:
-        f = Follower(user=request.user)
-        f.save()
-        f.follower.add(author)
-    # return render(request, 'blog/index.html', )
+        Follower.objects.create(user=request.user, follower=author)
+    return redirect(request.META['HTTP_REFERER'],)
+
+
+def unfollow(request, user_id):
+    author = User.objects.get(id=user_id)
+    follower = Follower.objects.filter(user=request.user, follower=author)
+    follower.delete()
     return redirect(request.META['HTTP_REFERER'])
 
 

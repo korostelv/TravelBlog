@@ -1,7 +1,7 @@
 
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import register, profile, edit_profile, delete_profile, follow
+from .views import register, profile, edit_profile, delete_profile, follow, unfollow
 
 app_name = 'registration'
 
@@ -15,5 +15,6 @@ urlpatterns = [
     path('edit_profile/', edit_profile, name='edit_profile'),
     path('delete_profile/', delete_profile, name='delete_profile'),
     path('follow/<int:user_id>/', follow, name='follow'),
+    path('unfollow/<int:user_id>/', unfollow, name='unfollow'),
 ]
 

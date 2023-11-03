@@ -1,5 +1,22 @@
 
 
+
+{% if  user.is_authenticated %}
+    <div class="btn-followers"> <a href="{% url 'blog:select_followers'%}">Ваши любимые авторы</a></div>
+{% endif %}
+
+
+<form class="best" action="{% url 'blog:best' %}" method="post">
+    {% csrf_token %}
+    <p><b> Показать лучшие:</b> </p>
+    <select name="best">
+    <option>5 постов</option>
+    <option>10 постов</option>
+    </select>
+    <input type="submit" class="botton" value="Поиск">
+</form>
+
+
 <form action="{% url 'blog:select_profile' %}" method="post">
     {% csrf_token %}
     <label for="profile"><h4> Поиск по аккаунту: </h4></label>

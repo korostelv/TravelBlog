@@ -2,12 +2,24 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db.models import Sum, Value
+from django.db.models.functions import Coalesce
+
 from django.shortcuts import render, redirect
 from .forms import PostForm, PhotoForm, CommentForm
-from .models import Post, Photo, City, Comment
+from .models import Post, Photo, City, Comment, Like
 from taggit.models import Tag
 import json
 
+from django.apps import apps
+Follower = apps.get_model('registration', 'Follower')
+def followers_list(user):
+    if user:
+        f_obj = Follower.objects.filter(user=user)
+        followers=[]
+        for i in f_obj:
+            followers.append(i.follower)
+        return followers
 
 posts = Post.objects.all()
 list_used_cities = []
@@ -63,16 +75,18 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     tags = Tag.objects.all()
-    content = {
-        'user_posts': posts,
+    context = {
+        # 'user_posts': posts,
         'photos': photos,
         'page_obj': page_obj,
         'tags': sorted(tags),
         'posts': posts,
         'list_used_cities': sorted(list_used_cities),
-        'profiles': profiles
+        'profiles': profiles,
     }
-    return render(request, 'blog/index.html', content)
+    if request.user.is_authenticated:
+        context['followers']= followers_list(request.user)
+    return render(request, 'blog/index.html', context,)
 
 
 def show_post(request, post_id):
@@ -160,9 +174,67 @@ def select_profile(request):
             'list_used_cities': sorted(list_used_cities),
             'prof': prof
             }
-
         return render(request, 'blog/select_profile.html', context)
 
+
+def select_followers(request):
+    posts = Post.objects.filter(author__in=followers_list(request.user))
+    photo = Photo.objects.filter(post__in=posts)
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    all_tags = Tag.objects.all()
+    context = {
+        'tags': sorted(all_tags),
+        'page_obj': page_obj,
+        'photo': photo,
+        'list_used_cities': sorted(list_used_cities),
+        }
+    if request.user.is_authenticated:
+        context['followers'] = followers_list(request.user)
+    return render(request, 'blog/select_followers.html', context)
+
+
+def likes(request, post_id):
+    post = Post.objects.get(id=post_id)
+    user = request.user
+    is_user_like = Like.objects.filter(user=user, post=post).exists()
+    if not is_user_like:
+        Like.objects.create(post=post, user=user, like=1)
+        return redirect(request.META['HTTP_REFERER'])
+    messages.warning(request, 'Вы уже оценивали эту статью.')
+    return redirect(request.META['HTTP_REFERER'])
+
+
+def dislikes(request, post_id):
+    post = Post.objects.get(id=post_id)
+    user = request.user
+    is_user_like = Like.objects.filter(user=user, post=post).exists()
+    if not is_user_like:
+        Like.objects.create(post=post, user=user, like=-1)
+        return redirect(request.META['HTTP_REFERER'])
+    messages.warning(request, 'Вы уже оценивали эту статью.')
+    return redirect(request.META['HTTP_REFERER'],)
+
+
+def best(request):
+    if request.method == 'POST':
+        value = int(request.POST.get('best')[:2])
+        # posts = Post.objects.annotate(rating=Sum('like__like')).order_by('-rating')[:value]
+        posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
+        photo = Photo.objects.filter(post__in=posts)
+        paginator = Paginator(posts, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        all_tags = Tag.objects.all()
+        context={
+            # 'user_posts': posts,
+            'photos': photo,
+            'page_obj': page_obj,
+            'tags': sorted(all_tags),
+            'list_used_cities': sorted(list_used_cities),
+        }
+        return render(request, 'blog/best.html', context)
 
 def about(request):
     return render(request, 'blog/about.html')

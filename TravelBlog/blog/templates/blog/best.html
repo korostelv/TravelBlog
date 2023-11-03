@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="content">
+
+    <div class="profile">
+        <div class="profile_info">
+            {% include 'gallery.html' %}
+        </div>
+
+        <div class="user_posts">
+            {% include 'posts_preview.html' %}
+        </div>
+
+       <div class="tags">
+            {% include 'tags_include.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.utils import timezone
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
@@ -19,6 +20,11 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-publish']
+
+    def rating(self):
+        likes = self.like_set.filter(like=1).aggregate(Sum('like'))['like__sum'] or 0
+        dislikes = self.like_set.filter(like=-1).aggregate(Sum('like'))['like__sum'] or 0
+        return likes + dislikes
 
     def __str__(self):
         return self.title
@@ -65,6 +71,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.author}:{self.body}'
+
+
+class Like(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, default=None)
+    like = models.IntegerField(choices=[(1, 'Нравится'), (-1, 'Не нравится')], blank=False)
+
+    def __str__(self):
+        return f'"{self.post}": {self.like}'
 
 
 @receiver(post_delete, sender=TaggedItem)

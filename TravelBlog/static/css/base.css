@@ -76,7 +76,8 @@ body {
     text-align: center;
     font-size: 14px;
     position: absolute;
-    right: 2%;
+    left: 2%;
+    
 }
 /* ******************** */
 ul {
@@ -264,6 +265,18 @@ ul {
     
 }
 
+.rating {
+    margin: 0px 30px;
+}
+
+.rating img {
+    width: 30px;
+    height: 30px;
+}
+.rating p {
+    float: right;
+}
+
 .preview_post{
     border: 1px solid #aaffd4;
     border-radius: 10px;
@@ -280,7 +293,7 @@ ul {
 }
 
 .title {
-    padding-left: 30px ;
+    padding-left: 20px ;
 }
 
 .post-body-preview {
@@ -310,7 +323,26 @@ ul {
     background-color: rgb(0,102,51);
     color: yellow;
     border-radius: 5px 0 0 0;
+    border: 2px solid rgb(0,102,51);
 }
+
+.follow, .unfollow {
+    background-color: #aaffd4;
+}
+
+.follow a {
+    color: rgb(0,102,51);
+    text-decoration: none;
+    font-size: 12px;
+
+}
+
+.unfollow a {
+    color : red;
+    text-decoration: none;
+    font-size: 12px;
+}
+
 .city-publ-title {
     width: 90%;
     background-color: #aaffd4;
@@ -350,6 +382,26 @@ hr {
     margin-bottom: 10px;
 }
 
+.btn-followers {
+    background-color: rgb(0,102,51);
+    border-radius: 10px;
+    padding: 5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn-followers a {
+    color: yellow;
+    text-decoration: none;
+    font-size: 14px;
+}
+.btn-followers a:hover {
+    text-decoration: none;
+}
+
+.best {
+    margin-top: 20px;
+}
 
 /*   Карусель */
 
