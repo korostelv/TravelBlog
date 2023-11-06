@@ -217,22 +217,45 @@ def dislikes(request, post_id):
     return redirect(request.META['HTTP_REFERER'], )
 
 
+# def best(request):
+#     if request.method == 'POST':
+#         value = int(request.POST.get('best')[:2])
+#     else:
+#         value = int(request.GET.get('best')[:2])
+#
+#     posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
+#     photo = Photo.objects.filter(post__in=posts)
+#     paginator = Paginator(posts, 5)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#     all_tags = Tag.objects.all()
+#     context = {
+#             'photos': photo,
+#             'page_obj': page_obj,
+#             'tags': sorted(all_tags),
+#             'list_used_cities': sorted(list_used_cities),
+#         }
+#     return render(request, 'blog/best.html', context)
+
+
 def best(request):
     if request.method == 'POST':
-        value = int(request.POST.get('best')[:2])
-        posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
-        photo = Photo.objects.filter(post__in=posts)
-        paginator = Paginator(posts, 5)
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        all_tags = Tag.objects.all()
-        context = {
-            'photos': photo,
-            'page_obj': page_obj,
-            'tags': sorted(all_tags),
-            'list_used_cities': sorted(list_used_cities),
-        }
-        return render(request, 'blog/best.html', context)
+        value = int(request.POST.get('best', '5')[:2])
+    else:
+        value = int(request.GET.get('best', '10')[:2])
+    posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
+    photo = Photo.objects.filter(post__in=posts)
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    all_tags = Tag.objects.all()
+    context = {
+        'photos': photo,
+        'page_obj': page_obj,
+        'tags': sorted(all_tags),
+        'list_used_cities': sorted(list_used_cities),
+    }
+    return render(request, 'blog/best.html', context)
 
 
 def about(request):

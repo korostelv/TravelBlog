@@ -9,9 +9,9 @@
 <form class="best" action="{% url 'blog:best' %}" method="post">
     {% csrf_token %}
     <p><b> Показать лучшие:</b> </p>
-    <select name="best">
-    <option>5 постов</option>
-    <option>10 постов</option>
+    <select name="best" id="best">
+        <option>5 постов</option>
+        <option>10 постов</option>
     </select>
     <input type="submit" class="botton" value="Поиск">
 </form>
