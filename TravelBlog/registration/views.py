@@ -75,9 +75,7 @@ def profile(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     tags = Tag.objects.all()
-
-
-    content = {
+    context = {
         'user_posts': user_posts,
         'photos': photos,
         'page_obj': page_obj,
@@ -87,7 +85,7 @@ def profile(request):
         'user_city': user_city_json,
         # 'followers': followers_list(user)
     }
-    return render(request, 'registration/profile.html',content)
+    return render(request, 'registration/profile.html', context)
 
 
 def register(request):

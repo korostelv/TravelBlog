@@ -267,6 +267,8 @@ ul {
 
 .rating {
     margin: 0px 30px;
+    width: 90%;
+    height: 40px;
 }
 
 .rating img {
