@@ -12,14 +12,18 @@ from taggit.models import Tag
 import json
 
 from django.apps import apps
+
 Follower = apps.get_model('registration', 'Follower')
+
+
 def followers_list(user):
     if user:
         f_obj = Follower.objects.filter(user=user)
-        followers=[]
+        followers = []
         for i in f_obj:
             followers.append(i.follower)
         return followers
+
 
 posts = Post.objects.all()
 list_used_cities = []
@@ -27,10 +31,7 @@ for p in posts:
     if p.city not in list_used_cities:
         list_used_cities.append(p.city)
 
-
 profiles = User.objects.all()
-
-
 
 
 @login_required
@@ -76,7 +77,6 @@ def index(request):
     page_obj = paginator.get_page(page_number)
     tags = Tag.objects.all()
     context = {
-        # 'user_posts': posts,
         'photos': photos,
         'page_obj': page_obj,
         'tags': sorted(tags),
@@ -85,12 +85,11 @@ def index(request):
         'profiles': profiles,
     }
     if request.user.is_authenticated:
-        context['followers']= followers_list(request.user)
-    return render(request, 'blog/index.html', context,)
+        context['followers'] = followers_list(request.user)
+    return render(request, 'blog/index.html', context, )
 
 
 def show_post(request, post_id):
-
     post = Post.objects.filter(id=post_id)
     p = Post.objects.get(id=post_id)
     photo = Photo.objects.filter(post=post_id)
@@ -119,6 +118,7 @@ def show_post(request, post_id):
         'comments': comments
     }
     return render(request, 'blog/show_post.html', content)
+
 
 def select_tag(request, tag_slug):
     tag = Tag.objects.get(slug=tag_slug.strip())
@@ -166,14 +166,14 @@ def select_profile(request):
         paginator = Paginator(posts, 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        context={
+        context = {
             'user_posts': posts,
             'photos': photo,
             'page_obj': page_obj,
             'tags': sorted(all_tags),
             'list_used_cities': sorted(list_used_cities),
             'prof': prof
-            }
+        }
         return render(request, 'blog/select_profile.html', context)
 
 
@@ -189,7 +189,7 @@ def select_followers(request):
         'page_obj': page_obj,
         'photo': photo,
         'list_used_cities': sorted(list_used_cities),
-        }
+    }
     if request.user.is_authenticated:
         context['followers'] = followers_list(request.user)
     return render(request, 'blog/select_followers.html', context)
@@ -214,21 +214,19 @@ def dislikes(request, post_id):
         Like.objects.create(post=post, user=user, like=-1)
         return redirect(request.META['HTTP_REFERER'])
     messages.warning(request, 'Вы уже оценивали эту статью.')
-    return redirect(request.META['HTTP_REFERER'],)
+    return redirect(request.META['HTTP_REFERER'], )
 
 
 def best(request):
     if request.method == 'POST':
         value = int(request.POST.get('best')[:2])
-        # posts = Post.objects.annotate(rating=Sum('like__like')).order_by('-rating')[:value]
         posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
         photo = Photo.objects.filter(post__in=posts)
         paginator = Paginator(posts, 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         all_tags = Tag.objects.all()
-        context={
-            # 'user_posts': posts,
+        context = {
             'photos': photo,
             'page_obj': page_obj,
             'tags': sorted(all_tags),
@@ -236,8 +234,6 @@ def best(request):
         }
         return render(request, 'blog/best.html', context)
 
+
 def about(request):
     return render(request, 'blog/about.html')
-
-
-

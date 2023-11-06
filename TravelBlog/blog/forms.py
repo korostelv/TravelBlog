@@ -32,8 +32,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'city': forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Введите название города'}),
             'title': forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Напишите заголовок'}),
-            'body': forms.Textarea(attrs={'class ': 'form-input', 'cols': 60, 'rows': 20, 'placeholder': 'Расскажите свою историю'}),
-            # 'tags': forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Введите теги, разделяя их запятыми'}),
+            'body': forms.Textarea(attrs={'class ': 'form-input', 'cols': 60, 'rows': 20, 'placeholder': 'Расскажите свою историю'})
         }
 
 
