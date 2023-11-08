@@ -9,12 +9,13 @@ class PhotoInline(admin.TabularInline):
 
 class PhotoAdmin(admin.ModelAdmin):
     model = Photo
-    list_display = ('id', 'post', 'image', 'description')
+    list_display = ('id', 'post', 'image')
     list_filter = ('post',)
+
 
 class PostAdmin(admin.ModelAdmin):
     model = Post
-    inlines = [PhotoInline,]
+    inlines = [PhotoInline, ]
     list_display = ('id', 'city', 'title', 'author', 'tag_list', 'rating')
     list_filter = ('city', 'author')
     list_display_links = ['id', 'title']
@@ -31,6 +32,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ['id', 'post', 'author', 'body', 'create', 'active']
     list_filter = ['post', 'author', 'active', 'create']
     list_display_links = ['id', 'body']
+
 
 class CityAdmin(admin.ModelAdmin):
     model = City

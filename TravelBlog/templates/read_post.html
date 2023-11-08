@@ -44,13 +44,14 @@
 
     <div class="rating">
         {% if  user.is_authenticated %}
-            <a href="{% url 'blog:likes' post.id %}"><img src="{% static 'image/icon-like.png' %}" alt="like"></a>&emsp;
-            <a href="{% url 'blog:dislikes' post.id %}"><img src="{% static 'image/icon-dislike.png' %}" alt="dislike"></a>
+            <a class="like" href="{% url 'blog:likes' post.id %}" data-post-id={{post.id}}><img src="{% static 'image/icon-like.png' %}" alt="like"></a>&emsp;
+            <a class="dislike" href="{% url 'blog:dislikes' post.id %}" data-post-id={{post.id}}><img src="{% static 'image/icon-dislike.png' %}" alt="dislike"></a>
+        <p class="message-rating"></p>
         {% endif %}
         {% if text %}
             {{text}}
         {% endif %}
-        <p><b>Рейтинг статьи:</b><span style="color: #006633;">  {{post.rating}}</span></p>
+        <p class="rating-count"><b>Рейтинг статьи:</b><span style="color: #006633;">  {{post.rating}}</span></p>
     </div>
 {% endfor %}
 

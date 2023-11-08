@@ -223,7 +223,7 @@ ul {
     background-color: rgb(170, 255, 212) ;
     display: flex;
     flex-direction: column;
-    margin: 20px 5px;
+    margin: 20px 0px;
     color: rgb(0,102,51) ;
     min-width: 0;
 }
@@ -266,6 +266,7 @@ ul {
 }
 
 .rating {
+    position: relative;
     margin: 0px 30px;
     width: 90%;
     height: 40px;
@@ -277,6 +278,12 @@ ul {
 }
 .rating p {
     float: right;
+}
+.message-rating {
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    color: rgb(0,102,51);
 }
 
 .preview_post{
@@ -428,7 +435,7 @@ hr {
  .swiper_gallery {
     width: 100%;
     height: 90vh;
-
+    display: none;
 }
 .swiper_gallery img {
     width: 95%;

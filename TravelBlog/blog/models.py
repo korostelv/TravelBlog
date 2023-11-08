@@ -33,7 +33,7 @@ class Post(models.Model):
 class Photo(models.Model):
     post = models.ForeignKey('Post', null=True, blank=False, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='blogs/%Y/%m/%d/', blank=True, null=True)
-    description = models.CharField( max_length=150, blank=True)
+    # description = models.CharField(max_length=150, blank=True)
 
     def __str__(self):
         return self.description
@@ -60,7 +60,7 @@ def coord(sender, instance, **kwargs):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments_author')
-    body = models.TextField(max_length=3000,blank=True)
+    body = models.TextField(max_length=3000, blank=True)
     create = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
 
@@ -85,4 +85,3 @@ def after_deleting(sender, instance, **kwargs):
     if not TaggedItem.objects.filter(tag=instance.tag).exists():
         print("Удален тег", instance.tag)
         instance.tag.delete()
-

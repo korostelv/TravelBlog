@@ -1,3 +1,5 @@
+window.onload = function() {
+  $('.swiper_gallery').show();
 
 
 const swiperGallery = new Swiper('.swiper_gallery', {
@@ -14,9 +16,6 @@ const swiperGallery = new Swiper('.swiper_gallery', {
         crossFade: true,
       },
 
-
-
-
-
-  
 });
+
+};

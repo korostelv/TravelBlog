@@ -22,8 +22,9 @@ class MultipleFileField(forms.FileField):
 
 class PostForm(forms.ModelForm):
     tags = forms.CharField(required=False,
-                           widget=forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Введите теги, разделяя их запятыми'})
-    )
+                           widget=forms.TextInput(
+                               attrs={'class ': 'form-input', 'placeholder': 'Введите теги, разделяя их запятыми'})
+                           )
 
     class Meta:
         model = Post
@@ -32,7 +33,8 @@ class PostForm(forms.ModelForm):
         widgets = {
             'city': forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Введите название города'}),
             'title': forms.TextInput(attrs={'class ': 'form-input', 'placeholder': 'Напишите заголовок'}),
-            'body': forms.Textarea(attrs={'class ': 'form-input', 'cols': 60, 'rows': 20, 'placeholder': 'Расскажите свою историю'})
+            'body': forms.Textarea(
+                attrs={'class ': 'form-input', 'cols': 60, 'rows': 20, 'placeholder': 'Расскажите свою историю'})
         }
 
 
@@ -49,11 +51,3 @@ class CommentForm(forms.ModelForm):
         model = Comment
         labels = {'body': ' Написать комментарий'}
         fields = ['body']
-
-
-
-
-
-
-
-

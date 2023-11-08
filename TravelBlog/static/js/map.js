@@ -10,8 +10,8 @@ $(document).ready(function(){
     console.log($('.title h3').text())
 
 
-    let map = L.map('map').setView([58.00, 56.15], 6); //По координатам  Перми
-    // // let map = L.map('map').setView(loc, 6); // По координатам по IP
+    // let map = L.map('map').setView([58.00, 56.15], 6); //По координатам  Перми
+    let map = L.map('map').setView(loc, 6); // По координатам по IP
 
 
 
@@ -19,7 +19,6 @@ $(document).ready(function(){
         StreetView: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution: '&copy; OpenStreetMap'}),
         Topography: L.tileLayer.wms('http://ows.mundialis.de/services/service?',   {layers: 'TOPO-WMS'}),
         Places: L.tileLayer.wms('http://ows.mundialis.de/services/service?', {layers: 'OSM-Overlay-WMS'}),
-        // OPNVKarte: L.tileLayer('https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png')
     };
     basemaps.StreetView.addTo(map);
     L.control.layers(basemaps).addTo(map);
@@ -33,8 +32,8 @@ $(document).ready(function(){
     });
 
 
-    L.marker([58.00, 56.15]).bindPopup('Вы находитесь здесь.').addTo(map);  //Метка местоположения Перми
-    // L.marker(loc).bindPopup('Вы находитесь здесь.').addTo(map); //метка местоположения по IP
+    // L.marker([58.00, 56.15]).bindPopup('Вы находитесь здесь.').addTo(map);  //Метка местоположения Перми
+    L.marker(loc).bindPopup('Вы находитесь здесь.').addTo(map); //метка местоположения по IP
 
 
     for ( let i in cityDict) {

@@ -11,6 +11,9 @@ from .models import Post, Photo, City, Comment, Like
 from taggit.models import Tag
 import json
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from django.apps import apps
 
 Follower = apps.get_model('registration', 'Follower')
@@ -195,47 +198,30 @@ def select_followers(request):
     return render(request, 'blog/select_followers.html', context)
 
 
+@csrf_exempt
 def likes(request, post_id):
-    post = Post.objects.get(id=post_id)
-    user = request.user
-    is_user_like = Like.objects.filter(user=user, post=post).exists()
-    if not is_user_like:
-        Like.objects.create(post=post, user=user, like=1)
-        return redirect(request.META['HTTP_REFERER'])
-    messages.warning(request, 'Вы уже оценивали эту статью.')
-    return redirect(request.META['HTTP_REFERER'])
+    if request.method == 'POST':
+        post = Post.objects.get(id=post_id)
+        user = request.user
+        is_user_like = Like.objects.filter(user=user, post=post).exists()
+        if not is_user_like:
+            Like.objects.create(post=post, user=user, like=1)
+            rating = post.rating()
+            return JsonResponse({'rating': rating, 'message': 'Спасибо за оценку.' })
+        return JsonResponse({'message': 'Вы уже оценивали эту статью.'})
 
 
+@csrf_exempt
 def dislikes(request, post_id):
-    post = Post.objects.get(id=post_id)
-    user = request.user
-    is_user_like = Like.objects.filter(user=user, post=post).exists()
-    if not is_user_like:
-        Like.objects.create(post=post, user=user, like=-1)
-        return redirect(request.META['HTTP_REFERER'])
-    messages.warning(request, 'Вы уже оценивали эту статью.')
-    return redirect(request.META['HTTP_REFERER'], )
-
-
-# def best(request):
-#     if request.method == 'POST':
-#         value = int(request.POST.get('best')[:2])
-#     else:
-#         value = int(request.GET.get('best')[:2])
-#
-#     posts = Post.objects.annotate(rating=Coalesce(Sum('like__like'), Value(0))).order_by('-rating')[:value]
-#     photo = Photo.objects.filter(post__in=posts)
-#     paginator = Paginator(posts, 5)
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     all_tags = Tag.objects.all()
-#     context = {
-#             'photos': photo,
-#             'page_obj': page_obj,
-#             'tags': sorted(all_tags),
-#             'list_used_cities': sorted(list_used_cities),
-#         }
-#     return render(request, 'blog/best.html', context)
+    if request.method == 'POST':
+        post = Post.objects.get(id=post_id)
+        user = request.user
+        is_user_like = Like.objects.filter(user=user, post=post).exists()
+        if not is_user_like:
+            Like.objects.create(post=post, user=user, like=-1)
+            rating = post.rating()
+            return JsonResponse({'rating': rating, 'message': 'Спасибо за оценку.' })
+        return JsonResponse({'message': 'Вы уже оценивали эту статью.'})
 
 
 def best(request):

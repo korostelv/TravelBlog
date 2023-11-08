@@ -1,6 +1,5 @@
 {% load avatar_tags %}
 
-
     {%  for post in page_obj %}
         <div class="preview_post">
             <div class="post-header">
@@ -30,7 +29,6 @@
             <div class="post-body-preview">
                 <div >
                     <p>{{post.body|truncatewords:30}}</p>
-<!--                    <p><b>Тэги:</b> <i>{{ post.tags.all|join:", " }}</i></p>-->
                     <p class="prew_tags">
                         {% if post.tags.all %}
                             <p class="prew_tags"><b>Тэги:</b>

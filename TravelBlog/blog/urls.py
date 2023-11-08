@@ -1,5 +1,4 @@
 from django.urls import path
-
 from .views import add_post, index, show_post, select_tag, select_city, about, select_profile, select_followers, likes, \
     dislikes, best
 from .feeds import LatestPostsFeed

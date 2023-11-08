@@ -37,17 +37,14 @@ def user_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(request,username = cd['username'], password = cd['password'])
+            user = authenticate(request,username=cd['username'], password=cd['password'])
             if user is not None:
                 if user.is_active:
-                    login(request,user)
-                    messages.success(request, 'Вход выполнен успешно.')
+                    login(request, user)
                     return redirect('registration:profile')
                 else:
-                    messages.error(request, 'Учетная запись отключена.')
                     return redirect(request, 'registration:login', {'form': form})
             else:
-                messages.error(request, 'Неверные учетные данные.')
                 return redirect(request, 'registration:login', {'form': form})
     else:
         form = LoginForm()
@@ -83,7 +80,6 @@ def profile(request):
         'list_used_cities': sorted(list_used_cities),
         'current_location': current_location,
         'user_city': user_city_json,
-        # 'followers': followers_list(user)
     }
     return render(request, 'registration/profile.html', context)
 
