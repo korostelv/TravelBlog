@@ -16,11 +16,6 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 
-class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
-
-
 class UserEditForm(forms.ModelForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
     first_name = forms.CharField(label='Имя', widget=forms.TextInput(attrs={'class': 'form-input'}))
