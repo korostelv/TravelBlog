@@ -33,7 +33,6 @@ class Post(models.Model):
 class Photo(models.Model):
     post = models.ForeignKey('Post', null=True, blank=False, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='blogs/%Y/%m/%d/', blank=True, null=True)
-    # description = models.CharField(max_length=150, blank=True)
 
     def __str__(self):
         return self.description

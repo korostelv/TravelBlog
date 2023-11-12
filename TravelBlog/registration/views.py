@@ -9,7 +9,7 @@ from taggit.models import Tag
 from .models import Follower
 from .forms import UserRegisterForm, UserEditForm
 import json
-from .geo import current_location
+
 
 from django.apps import apps
 Post = apps.get_model('blog', 'Post')
@@ -59,7 +59,6 @@ def profile(request):
         'page_obj': page_obj,
         'tags': sorted(tags),
         'list_used_cities': sorted(list_used_cities),
-        'current_location': current_location,
         'user_city': user_city_json,
     }
     return render(request, 'registration/profile.html', context)
