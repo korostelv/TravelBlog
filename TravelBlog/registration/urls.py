@@ -3,7 +3,6 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import register, profile, edit_profile, delete_profile, follow, unfollow
 
-
 app_name = 'registration'
 
 urlpatterns = [
