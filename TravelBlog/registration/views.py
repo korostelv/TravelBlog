@@ -2,11 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from taggit.models import Tag
 from .models import Follower
-from .forms import UserRegisterForm, LoginForm, UserEditForm
+from .forms import UserRegisterForm, UserEditForm
 import json
 from .geo import current_location
 
@@ -14,7 +15,6 @@ from django.apps import apps
 Post = apps.get_model('blog', 'Post')
 Photo = apps.get_model('blog', 'Photo')
 City = apps.get_model('blog', 'City')
-
 
 
 posts = Post.objects.all()
@@ -30,25 +30,6 @@ def followers_list(user):
     for i in f_obj:
         followers.append(i.follower)
     return followers
-
-
-def user_login(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request,username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('registration:profile')
-                else:
-                    return redirect(request, 'registration:login', {'form': form})
-            else:
-                return redirect(request, 'registration:login', {'form': form})
-    else:
-        form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
 
 
 @login_required
@@ -85,7 +66,6 @@ def profile(request):
 
 
 def register(request):
-    tags = Tag.objects.all()
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
@@ -93,11 +73,7 @@ def register(request):
             login(request, user)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Создан аккаунт {username}!')
-            content = {
-                'list_used_cities': sorted(list_used_cities),
-                'tags': sorted(tags),
-            }
-            return render(request, 'registration/profile.html', content)
+            return redirect(reverse('registration:profile'))
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -116,6 +92,7 @@ def edit_profile(request):
     return render(request, 'registration/edit_profile.html', {'form': form})
 
 
+@login_required
 def delete_profile(request):
     if request.method == 'POST':
         user = request.user
@@ -126,6 +103,7 @@ def delete_profile(request):
     return render(request, 'registration/delete_profile.html')
 
 
+@login_required
 def follow(request, user_id):
     author = User.objects.get(id=user_id)
     is_following = Follower.objects.filter(user=request.user, follower=author).exists()
@@ -136,12 +114,12 @@ def follow(request, user_id):
     return redirect(request.META['HTTP_REFERER'],)
 
 
+@login_required
 def unfollow(request, user_id):
     author = User.objects.get(id=user_id)
     follower = Follower.objects.filter(user=request.user, follower=author)
     follower.delete()
     return redirect(request.META['HTTP_REFERER'])
-
 
 
 
