@@ -102,7 +102,6 @@ def show_post(request, post_id):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment_text = comment_form.cleaned_data
-            print(comment_text)
             if comment_text != '':
                 comment = comment_form.save(commit=False)
                 comment.author = request.user

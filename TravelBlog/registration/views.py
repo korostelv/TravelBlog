@@ -24,14 +24,6 @@ for p in posts:
         list_used_cities.append(p.city)
 
 
-def followers_list(user):
-    f_obj = Follower.objects.filter(user=user)
-    followers=[]
-    for i in f_obj:
-        followers.append(i.follower)
-    return followers
-
-
 @login_required
 def profile(request):
     user = request.user
@@ -48,7 +40,7 @@ def profile(request):
                 user_city[city.name] = coord
     user_city_json = json.dumps(user_city)
 
-    photos = Photo.objects.all()
+    photos = Photo.objects.filter(post__in=user_posts)
     paginator = Paginator(user_posts, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
